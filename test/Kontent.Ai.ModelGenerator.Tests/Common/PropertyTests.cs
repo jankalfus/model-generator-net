@@ -43,7 +43,7 @@ public class PropertyTests
     [InlineData("date_time", "DateTime?")]
     [InlineData($"date_time{Property.StructuredSuffix}", "IDateTimeContent")]
     [InlineData("asset", "IEnumerable<IAsset>")]
-    [InlineData("modular_content", "IEnumerable<object>")]
+    [InlineData("modular_content", "IEnumerable<IContentItem>")]
     [InlineData("taxonomy", "IEnumerable<ITaxonomyTerm>")]
     [InlineData("url_slug", "string")]
     [InlineData("custom", "string")]

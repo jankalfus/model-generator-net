@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Kontent.Ai.Management;
 using Kontent.Ai.Management.Extensions;
@@ -39,13 +40,11 @@ public class ExtendedDeliveryCodeGenerator : DeliveryCodeGeneratorBase
         var deliveryTypes = await _managementClient.ListContentTypesAsync().GetAllAsync();
         var managementSnippets = await _managementClient.ListContentTypeSnippetsAsync().GetAllAsync();
 
-        var codeGenerators = new List<ClassCodeGenerator>();
+        var codeGenerators = await base.GetClassCodeGenerators();
         if (deliveryTypes == null)
         {
             return codeGenerators;
         }
-
-        codeGenerators.Add(new ContentItemClassCodeGenerator(Options.Namespace));
 
         foreach (var contentType in deliveryTypes)
         {
@@ -56,7 +55,9 @@ public class ExtendedDeliveryCodeGenerator : DeliveryCodeGeneratorBase
                     codeGenerators.Add(GetCustomClassCodeGenerator(contentType.Codename));
                 }
 
-                codeGenerators.AddRange(GetClassCodeGenerators(contentType, managementSnippets, deliveryTypes));
+                codeGenerators = codeGenerators
+                    .Concat(GetClassCodeGenerators(contentType, managementSnippets, deliveryTypes))
+                    .ToList();
             }
             catch (InvalidIdentifierException)
             {

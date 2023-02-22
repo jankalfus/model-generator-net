@@ -9,6 +9,7 @@ using Kontent.Ai.Delivery.Abstractions;
 using Kontent.Ai.Delivery.Builders.DeliveryClient;
 using Kontent.Ai.ModelGenerator.Core;
 using Kontent.Ai.ModelGenerator.Core.Configuration;
+using Kontent.Ai.ModelGenerator.Core.Generators.Class;
 using Microsoft.Extensions.Options;
 using Moq;
 using RichardSzalay.MockHttp;
@@ -21,7 +22,7 @@ public class DeliveryCodeGeneratorTests : CodeGeneratorTestsBase
     /// <summary>
     /// represents count of elements in 'delivery_types.json'
     /// </summary>
-    private const int NumberOfContentTypes = 13;
+    private const int NumberOfContentTypes = 14;
     protected override string TempDir => Path.Combine(Path.GetTempPath(), "DeliveryCodeGeneratorIntegrationTests");
 
     [Fact]
@@ -143,7 +144,7 @@ public class DeliveryCodeGeneratorTests : CodeGeneratorTestsBase
 
         Directory.GetFiles(Path.GetFullPath(TempDir)).Length.Should().Be(NumberOfContentTypes);
 
-        foreach (var filepath in Directory.EnumerateFiles(Path.GetFullPath(TempDir)))
+        foreach (var filepath in Directory.EnumerateFiles(Path.GetFullPath(TempDir)).Where(f => !f.Contains($"{ContentItemClassCodeGenerator.DefaultContentItemClassName}.cs")))
         {
             Path.GetFileName(filepath).Should().EndWith($".{transformFilename}.cs");
         }
@@ -185,7 +186,7 @@ public class DeliveryCodeGeneratorTests : CodeGeneratorTestsBase
         var allFilesCount = Directory.GetFiles(Path.GetFullPath(TempDir), "*.cs").Length;
         var generatedCount = Directory.GetFiles(Path.GetFullPath(TempDir), $"*.{transformFilename}.cs").Length;
 
-        var resultGeneratedFilesCount = generatedCount * 2;
+        var resultGeneratedFilesCount = generatedCount * 2 + 1;
         resultGeneratedFilesCount.Should().Be(allFilesCount);
 
         foreach (var filepath in Directory.EnumerateFiles(Path.GetFullPath(TempDir), $"*.{transformFilename}.cs"))

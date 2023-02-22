@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Globalization;
 using Kontent.Ai.Delivery.Abstractions;
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Models.Types.Elements;
+using Kontent.Ai.ModelGenerator.Core.Generators.Class;
 using Kontent.Ai.ModelGenerator.Core.Helpers;
 
 namespace Kontent.Ai.ModelGenerator.Core.Common;
@@ -36,7 +36,7 @@ public class Property
         { $"{DateTimeElementType}{StructuredSuffix}", nameof(IDateTimeContent) },
         { "multiple_choice", TextHelpers.GetEnumerableType(nameof(IMultipleChoiceOption))},
         { "asset", TextHelpers.GetEnumerableType(nameof(IAsset)) },
-        { "modular_content", TextHelpers.GetEnumerableType(nameof(Object).ToLower(CultureInfo.InvariantCulture)) },
+        { "modular_content", TextHelpers.GetEnumerableType(ContentItemClassCodeGenerator.DefaultContentItemClassName) },
         { "taxonomy", TextHelpers.GetEnumerableType(nameof(ITaxonomyTerm)) },
         { "url_slug", "string" },
         { "custom", "string" }

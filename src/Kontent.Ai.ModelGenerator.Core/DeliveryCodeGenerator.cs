@@ -29,7 +29,7 @@ public class DeliveryCodeGenerator : DeliveryCodeGeneratorBase
     {
         var deliveryTypes = (await _deliveryClient.GetTypesAsync()).Types;
 
-        var codeGenerators = new List<ClassCodeGenerator>();
+        var codeGenerators = await base.GetClassCodeGenerators();
         if (deliveryTypes == null)
         {
             return codeGenerators;

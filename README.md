@@ -92,8 +92,8 @@ namespace KontentAiModels
         public IEnumerable<MultipleChoiceOption> MultipleChoice { get; set; }
         public DateTime? DateTime { get; set; }
         public IEnumerable<Asset> Asset { get; set; }
-        public IEnumerable<object> ModularContent { get; set; }
-        public IEnumerable<object> Subpages { get; set; }
+        public IEnumerable<IContentItem> ModularContent { get; set; }
+        public IEnumerable<IContentItem> Subpages { get; set; }
         public IEnumerable<TaxonomyTerm> Taxonomy { get; set; }
         public string UrlSlug { get; set; }
         public string CustomElement { get; set; }

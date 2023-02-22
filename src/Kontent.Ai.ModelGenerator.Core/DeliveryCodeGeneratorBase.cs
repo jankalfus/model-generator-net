@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Kontent.Ai.ModelGenerator.Core;
 
@@ -25,6 +26,12 @@ public abstract class DeliveryCodeGeneratorBase : CodeGeneratorBase
 
         return 0;
     }
+
+    protected override Task<ICollection<ClassCodeGenerator>> GetClassCodeGenerators() =>
+        Task.FromResult<ICollection<ClassCodeGenerator>>(new List<ClassCodeGenerator>
+            {
+                new ContentItemClassCodeGenerator(Options.Namespace)
+            });
 
     private async Task GenerateTypeProvider()
     {
